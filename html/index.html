@@ -189,7 +189,7 @@
                     
                     <div class="flex flex-col sm:flex-row gap-3">
                         <a href="waitlist.html" class="modern-button text-white px-6 py-3 rounded-xl font-bold relative overflow-hidden text-center">
-                            🚀 Join the Revolution
+                            🚀 Join the Movement
                         </a>
                         <a href="#features" class="border-2 border-white/80 text-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all text-center backdrop-blur-sm">
                             See How It Works
@@ -553,7 +553,7 @@
             </p>
             <div class="space-y-4">
                 <a href="waitlist.html" class="inline-block modern-button text-white px-10 py-4 rounded-xl font-bold text-xl relative overflow-hidden">
-                    🚀 Join the Memory Revolution
+                    🚀 Join the Memory Movement
                 </a>
                 <div class="text-sm opacity-75">
                     No spam. No BS. Just updates on the future of AI memory.
@@ -676,11 +676,10 @@
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
+        // Mobile menu toggle
+        mobileMenuButton?.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
         
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
