@@ -710,7 +710,7 @@
         const errorMessage = document.getElementById('error-message');
         const errorText = document.getElementById('error-text');
         const waitlistCount = document.getElementById('waitlist-count');
-        const totalSignups = document.getElementById('total-signups');
+        const totalSignups = document.getElementById('total-signups') || { textContent: '' };
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
