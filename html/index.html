@@ -501,15 +501,21 @@
                             <p class="text-gray-600 text-sm">Memory-first AI architecture</p>
                         </div>
                         
-                        <div class="space-y-3">
+                        <div class="relative space-y-3">
                             <!-- Memory Layer -->
                             <div class="bg-blue-100 border-2 border-blue-300 rounded-xl p-3 text-center">
                                 <div class="text-blue-800 font-bold text-sm">🧠 Memory Layer</div>
                                 <div class="text-xs text-blue-600">Connected context across sessions</div>
                             </div>
                             
+                            <!-- Connection lines from Memory Layer to AI Protocols -->
+                            <svg class="absolute top-16 left-0 w-full h-8 pointer-events-none" style="z-index: 1;">
+                                <line x1="50%" y1="0" x2="25%" y2="32" stroke="#6366f1" stroke-width="2" stroke-dasharray="3,3"/>
+                                <line x1="50%" y1="0" x2="75%" y2="32" stroke="#6366f1" stroke-width="2" stroke-dasharray="3,3"/>
+                            </svg>
+                            
                             <!-- AI Protocols -->
-                            <div class="grid grid-cols-2 gap-3">
+                            <div class="grid grid-cols-2 gap-3 relative" style="z-index: 2;">
                                 <div class="bg-purple-100 border border-purple-300 rounded-lg p-2 text-center">
                                     <div class="text-purple-800 font-semibold text-xs">MARM Protocol</div>
                                     <div class="text-xs text-purple-600">Memory + Response</div>
@@ -520,8 +526,14 @@
                                 </div>
                             </div>
                             
+                            <!-- Connection lines from AI Protocols to MCP Integration -->
+                            <svg class="absolute top-32 left-0 w-full h-8 pointer-events-none" style="z-index: 1;">
+                                <line x1="25%" y1="0" x2="50%" y2="32" stroke="#10b981" stroke-width="2" stroke-dasharray="3,3"/>
+                                <line x1="75%" y1="0" x2="50%" y2="32" stroke="#10b981" stroke-width="2" stroke-dasharray="3,3"/>
+                            </svg>
+                            
                             <!-- Future Integrations -->
-                            <div class="bg-green-100 border-2 border-green-300 rounded-xl p-3 text-center">
+                            <div class="bg-green-100 border-2 border-green-300 rounded-xl p-3 text-center relative" style="z-index: 2;">
                                 <div class="text-green-800 font-bold text-sm">🔌 MCP Integration</div>
                                 <div class="text-xs text-green-600">Memory tools for any AI application</div>
                             </div>
