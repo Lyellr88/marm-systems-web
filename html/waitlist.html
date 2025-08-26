@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Memory Movement - MARM Systems Waitlist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'modern': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        'georgia': ['Georgia', 'serif'],
+                    },
+                    colors: {
+                        'marm-blue': '#1e40af',
+                        'marm-purple': '#7c3aed',
+                        'marm-gray': '#374151',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(59, 130, 246, 0.15)',
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'modern': '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.95) 100%);
+            z-index: 1;
+        }
+        .gradient-bg > * {
+            position: relative;
+            z-index: 2;
+        }
+        .dark-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .dark-glass {
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .modern-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .hover-scale {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-scale:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes pulseGlow {
+            from {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            }
+            to {
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+            }
+        }
+        .countdown-timer {
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .modern-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .modern-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        .modern-button:hover::before {
+            left: 100%;
+        }
+        .modern-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+        .success-animation {
+            animation: successBounce 0.6s ease-in-out;
+        }
+        @keyframes successBounce {
+            0% { transform: scale(0.3) rotate(-90deg); opacity: 0; }
+            50% { transform: scale(1.05) rotate(-10deg); }
+            70% { transform: scale(0.9) rotate(0deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="font-modern text-gray-800 bg-gradient-to-br from-gray-50 via-white to-blue-50 antialiased">&lt; &gt;
+    
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 dark-glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-2xl font-bold text-white tracking-tight">
+                        MARM<span class="text-blue-400 font-light">Systems</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html#home" class="text-white/90 hover:text-white hover:bg-white/10 px-3 py-2 rounded-lg transition-all font-medium">Home</a>
+                        <a href="index.html#features" class="text-white/90 hover:text-white hover:bg-white/10 px-3 py-2 rounded-lg transition-all">Features</a>
+                        <a href="index.html#vision" class="text-white/90 hover:text-white hover:bg-white/10 px-3 py-2 rounded-lg transition-all">Vision</a>
+                        <a href="journey.html" class="text-white/90 hover:text-white hover:bg-white/10 px-3 py-2 rounded-lg transition-all">My Journey</a>
+                        <a href="https://github.com/Lyellr88/MARM-Systems" class="modern-button text-white px-6 py-2 rounded-lg font-semibold relative overflow-hidden">Try MARM</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Hamburger Menu -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white hover:text-blue-300 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="index.html#home" class="block text-white hover:text-blue-300 transition-colors py-2">Home</a>
+                    <a href="index.html#features" class="block text-white hover:text-blue-300 transition-colors py-2">Features</a>
+                    <a href="index.html#vision" class="block text-white hover:text-blue-300 transition-colors py-2">Vision</a>
+                    <a href="journey.html" class="block text-white hover:text-blue-300 transition-colors py-2">My Journey</a>
+                    <a href="https://github.com/Lyellr88/MARM-Systems-MARM" class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mt-2">Try MARM</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20 pt-24">
+        <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
+            <div class="space-y-6">
+                <div class="countdown-timer text-white text-sm px-6 py-3 rounded-full font-bold animate-pulse inline-block">
+                    WAITLIST NOW OPEN - LIMITED EARLY ACCESS
+                </div>
+                
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+                    Join the <span class="text-yellow-300">Memory</span><br/>
+                    <span class="text-blue-300">Movement</span>
+                </h1>
+                
+                <div class="text-lg md:text-xl leading-relaxed opacity-90 max-w-2xl mx-auto space-y-3">
+                    <p>Be among the first to experience an AI that <strong>actually remembers you</strong>.</p>
+                    <p>No more starting from scratch. No more repeating yourself.</p>
+                    <p class="text-yellow-300 font-bold">Just an AI that grows with you over time.</p>
+                </div>
+                
+                <!-- Early Access Stats -->
+                <div class="grid grid-cols-3 gap-6 pt-6 max-w-xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-300">130+</div>
+                        <div class="text-xs opacity-75">GitHub Stars</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-purple-300">First</div>
+                        <div class="text-xs opacity-75">AI Memory Infrastructure</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-green-300" id="waitlist-count">0</div>
+                        <div class="text-xs opacity-75">Early Access Members</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exclusive Access Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Content -->
+                <div>
+                    <div class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+                        🎯 EXCLUSIVE EARLY ACCESS
+                    </div>
+                    
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+                        Why Join the<br/>
+                        <span class="text-blue-600">MARM Waitlist?</span>
+                    </h2>
+                    
+                    <div class="space-y-6 text-lg text-gray-700">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                1
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-2">First Access to Memory AI</h3>
+                                <p>Be among the first to experience an AI that builds lifelong memory with you. Every conversation matters.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                2
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-2">Lifetime Pricing Lock</h3>
+                                <p>First 100 members get <strong>lifetime access</strong> at launch pricing. No price increases, ever.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                3
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-2">Shape the Future</h3>
+                                <p>Your feedback directly influences MARM's development. Help build the memory infrastructure for all AI.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                4
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-2">Exclusive Content</h3>
+                                <p>Get behind-the-scenes development updates and early access to new articles about building AI protocols.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right - Waitlist Form -->
+                <div class="relative">
+                    <!-- Background Effects -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-3xl blur-3xl animate-pulse"></div>
+                    
+                    <div class="relative modern-card rounded-3xl p-8 border border-gray-100">
+                        <div class="text-center mb-8">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-4 tracking-tight">
+                                Join the Waitlist
+                            </h3>
+                            <p class="text-gray-600 text-lg">
+                                Be the first to experience AI that actually remembers your conversations
+                            </p>
+                        </div>
+                        
+                        <!-- Pricing Preview -->
+                        <div class="bg-gradient-to-r from-blue-50/80 to-purple-50/80 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-blue-100/50">
+                            <div class="text-center">
+                                <div class="text-lg font-semibold text-gray-800 mb-4">Early Access Pricing</div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">First Month:</span>
+                                        <span class="font-bold text-green-600 text-lg">FREE</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">After:</span>
+                                        <span class="font-bold text-blue-600 text-lg">$10/month</span>
+                                    </div>
+                                    <div class="border-t border-gray-200/60 pt-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-gray-700">First 100 users:</span>
+                                            <span class="font-bold text-purple-600 text-sm">LIFETIME PRICING</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Success Message -->
+                        <div id="success-message" class="hidden mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="text-green-600 text-2xl mr-3 success-animation">✅</div>
+                                <div>
+                                    <h4 class="text-green-800 font-semibold">Welcome to the Movement!</h4>
+                                    <p class="text-green-700 text-sm">You're now on the MARM waitlist. We'll notify you when early access is available.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div id="error-message" class="hidden mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="text-red-600 text-2xl mr-3">❌</div>
+                                <div>
+                                    <h4 class="text-red-800 font-semibold">Oops! Something went wrong</h4>
+                                    <p class="text-red-700 text-sm" id="error-text">Please try again in a moment.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Waitlist Form -->
+                        <form id="waitlist-form" class="space-y-6">
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+                                <input type="email" 
+                                       id="email" 
+                                       name="email" 
+                                       class="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-gray-50/50 backdrop-blur-sm text-lg"
+                                       placeholder="your@email.com"
+                                       required>
+                            </div>
+                            
+                            <button type="submit" 
+                                    id="submit-btn"
+                                    class="w-full modern-button text-white py-4 px-8 rounded-xl font-bold text-lg relative overflow-hidden">
+                                Join the Waitlist Now
+                            </button>
+                            
+                            <div class="text-center text-sm text-gray-500 leading-relaxed">
+                                🔒 No spam, ever. Unsubscribe anytime.<br/>
+                                📧 Only updates about MARM development and early access.
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What's Being Built -->
+    <section class="py-20 dark-gradient text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    What You're Getting <span class="text-blue-400">Early Access</span> To
+                </h2>
+                <p class="text-xl opacity-90 max-w-3xl mx-auto">
+                    MARM isn't just another chatbot. It's the foundation of a memory-augmented AI ecosystem that will change how you interact with artificial intelligence forever.
+                </p>
+            </div>
+            
+            <!-- Development Timeline -->
+            <div class="max-w-4xl mx-auto">
+                <div class="space-y-8">
+                    <!-- Phase 1 - Current -->
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+                                ✓
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <h3 class="text-2xl font-bold">MARM v2.1 Protocol</h3>
+                                <span class="bg-green-600 text-white text-xs px-2 py-1 rounded-full font-semibold">LIVE</span>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed mb-4">
+                                Memory-accurate response mode with session management, context retention, and systematic conversation logging. 130+ GitHub stars and growing community.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-600 bg-opacity-30 text-green-300 text-sm px-3 py-1 rounded-full">✓ Session Memory</span>
+                                <span class="bg-green-600 bg-opacity-30 text-green-300 text-sm px-3 py-1 rounded-full">✓ Context Retention</span>
+                                <span class="bg-green-600 bg-opacity-30 text-green-300 text-sm px-3 py-1 rounded-full">✓ GitHub Integration</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 2 - In Development -->
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold animate-pulse">
+                                🚧
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <h3 class="text-2xl font-bold">Dual-RAG Memory System</h3>
+                                <span class="bg-yellow-600 text-white text-xs px-2 py-1 rounded-full font-semibold">IN DEVELOPMENT</span>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed mb-4">
+                                Advanced dual-RAG architecture: Personal memory for your conversations + General knowledge base that updates over time. The AI that truly grows with you.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-600 bg-opacity-30 text-yellow-300 text-sm px-3 py-1 rounded-full">🚧 Personal RAG</span>
+                                <span class="bg-yellow-600 bg-opacity-30 text-yellow-300 text-sm px-3 py-1 rounded-full">🚧 Auto Memory Updates</span>
+                                <span class="bg-yellow-600 bg-opacity-30 text-yellow-300 text-sm px-3 py-1 rounded-full">🚧 Monthly Curation</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 3 - Coming Soon -->
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                                🔮
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <h3 class="text-2xl font-bold">MoreLogic™ Reasoning Engine</h3>
+                                <span class="bg-purple-600 text-white text-xs px-2 py-1 rounded-full font-semibold">COMING SOON</span>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed mb-4">
+                                Advanced 7-step critical thinking protocol that transforms AI from answer generators into genuine reasoning partners. Judgment → Skepticism → Originality → Self-Reflexivity.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-600 bg-opacity-30 text-purple-300 text-sm px-3 py-1 rounded-full">🔮 Critical Thinking</span>
+                                <span class="bg-purple-600 bg-opacity-30 text-purple-300 text-sm px-3 py-1 rounded-full">🔮 Logic Validation</span>
+                                <span class="bg-purple-600 bg-opacity-30 text-purple-300 text-sm px-3 py-1 rounded-full">🔮 Reasoning Chains</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Break -->
+            <div class="border-t border-gray-700 mt-16 mb-16"></div>
+            
+            <!-- Visual Architecture Flow -->
+            <div class="mt-8">
+                <h3 class="text-2xl font-bold text-center mb-12">MARM Memory Architecture</h3>
+                <div class="max-w-4xl mx-auto">
+                    <!-- Flow Chart -->
+                    <div class="relative">
+                        <!-- User Input -->
+                        <div class="flex justify-center mb-8">
+                            <div class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold">
+                                User Input
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow Down -->
+                        <div class="flex justify-center mb-8">
+                            <svg class="w-6 h-8 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L11 6.414V16a1 1 0 11-2 0V6.414L7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        
+                        <!-- Processing Layer -->
+                        <div class="relative flex items-center justify-center mb-8 px-8">
+                            <!-- Personal RAG (Left Side) -->
+                            <div class="absolute left-0 top-1/2 transform -translate-y-1/2">
+                                <div class="bg-black bg-opacity-20 rounded-lg p-4 text-center w-32">
+                                    <div class="text-lg font-semibold text-blue-400 mb-1">Personal RAG</div>
+                                    <div class="text-xs text-gray-300">Your conversations</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Arrow from Personal RAG to MARM Protocol -->
+                            <div class="absolute left-36 top-1/2 transform -translate-y-1/2">
+                                <svg class="w-6 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h10.586l-2.293-2.293a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            
+                            <!-- MARM Protocol (Moved Left) -->
+                            <div class="bg-black bg-opacity-30 rounded-xl p-6 text-center w-56 -ml-8">
+                                <div class="text-xl font-bold text-green-400 mb-2">MARM Protocol</div>
+                                <div class="text-sm text-gray-300">Session Management</div>
+                                <div class="mt-3 w-full bg-green-900 rounded-full h-2">
+                                    <div class="bg-green-400 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                                <div class="text-xs text-green-400 mt-1">100% Complete</div>
+                            </div>
+                            
+                            <!-- Arrow Right Between Components -->
+                            <div class="mx-4">
+                                <svg class="w-8 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h10.586l-2.293-2.293a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            
+                            <!-- Memory Layer (Moved Right) -->
+                            <div class="bg-black bg-opacity-30 rounded-xl p-6 text-center w-56 -mr-8">
+                                <div class="text-xl font-bold text-yellow-400 mb-2">Memory Layer</div>
+                                <div class="text-sm text-gray-300">Dual-RAG System</div>
+                                <div class="mt-3 w-full bg-yellow-900 rounded-full h-2">
+                                    <div class="bg-yellow-400 h-2 rounded-full" style="width: 60%"></div>
+                                </div>
+                                <div class="text-xs text-yellow-400 mt-1">60% Complete</div>
+                            </div>
+                            
+                            <!-- Arrow from Memory Layer to General RAG -->
+                            <div class="absolute right-36 top-1/2 transform -translate-y-1/2">
+                                <svg class="w-6 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h10.586l-2.293-2.293a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            
+                            <!-- General RAG (Right Side) -->
+                            <div class="absolute right-0 top-1/2 transform -translate-y-1/2">
+                                <div class="bg-black bg-opacity-20 rounded-lg p-4 text-center w-32">
+                                    <div class="text-lg font-semibold text-purple-400 mb-1">General RAG</div>
+                                    <div class="text-xs text-gray-300">World knowledge</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow Down -->
+                        <div class="flex justify-center mb-8">
+                            <svg class="w-6 h-8 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 17a1 1 0 01-.707-.293l-3-3a1 1 0 011.414-1.414L9 13.586V4a1 1 0 112 0v9.586l1.293-1.293a1 1 0 011.414 1.414l-3 3A1 1 0 0110 17z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        
+                        <!-- Output -->
+                        <div class="flex justify-center">
+                            <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg">
+                                Memory-Augmented Response
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+                <p class="text-xl text-gray-600">Everything you need to know about joining the MARM waitlist</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="modern-card rounded-2xl p-8 hover-scale border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">When will MARM be available?</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        The dual-RAG memory system is currently in development. Waitlist members will get first access to the beta version, expected in Q3 2025. We believe in shipping when it's ready, not when it's rushed.
+                    </p>
+                </div>
+                
+                <div class="modern-card rounded-2xl p-8 hover-scale border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">What makes MARM different from ChatGPT or Claude?</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        We're not competing with them, we're complementing them. MARM provides the continuous memory layer that all AI interactions need. Think of it as the memory infrastructure that makes every AI smarter, not a replacement for existing models.
+                    </p>
+                </div>
+                
+                <div class="modern-card rounded-2xl p-8 hover-scale border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">What's the lifetime pricing offer?</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        The first 100 waitlist members who convert to paid users get lifetime access at the launch price ($10/month becomes lifetime). This locks in your pricing forever, no increases, no surprises.
+                    </p>
+                </div>
+                
+                <div class="modern-card rounded-2xl p-8 hover-scale border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">How do I know my data is safe?</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        You control what gets remembered. Manual session saves, monthly memory reviews, and complete transparency in what's stored. We ask permission before remembering anything, ensuring full user consent and control.
+                    </p>
+                </div>
+                
+                <div class="modern-card rounded-2xl p-8 hover-scale border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Can I cancel anytime?</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Absolutely. Your memory data exports with you, and there are no cancellation fees. We believe if you want to leave, you should be able to with all your data intact.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 gradient-bg text-white text-center">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-6xl font-bold mb-8">
+                Ready to Stop<br/>
+                <span class="text-red-400">Repeating Yourself</span>?
+            </h2>
+            <p class="text-xl mb-12 leading-relaxed opacity-90">
+                Join the waitlist for the first AI that builds lasting memory with you. Every conversation counts. Every insight matters. Every memory builds the future.
+            </p>
+            
+            <div class="space-y-6">
+                <a href="#waitlist-form" class="inline-block modern-button text-white px-10 py-4 rounded-xl font-bold text-xl relative overflow-hidden">
+                    Join the Memory Movement
+                </a>
+            </div>
+            
+            <div class="mt-12">
+                <p class="text-sm opacity-75">
+                    Built by <a href="journey.html" class="underline hover:no-underline">someone who gets it</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">MARM<span class="text-blue-400">Systems</span></h3>
+                    <p class="text-gray-400 leading-relaxed mb-4">
+                        The memory infrastructure for the entire AI ecosystem. Building the future where AI actually remembers you.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/Lyellr88" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com/in/ryanlyell" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037c-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85c3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065a2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Product</h4>
+                    <div class="space-y-2">
+                        <a href="index.html" class="block text-gray-400 hover:text-white transition-colors">Home</a>
+                        <a href="index.html#features" class="block text-gray-400 hover:text-white transition-colors">Features</a>
+                        <a href="index.html#vision" class="block text-gray-400 hover:text-white transition-colors">Vision</a>
+                        <a href="journey.html" class="block text-gray-400 hover:text-white transition-colors">My Journey</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Development Status</h4>
+                    <div class="space-y-2 text-gray-400 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>MARM Protocol: Live</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                            <span>Memory System: 60%</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            <span>Waitlist: Now Open</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 MARM Systems. Building better AI memory, one conversation at a time.</p>
+                <p class="mt-2 text-sm">Built with systematic thinking, relentless iteration, and the belief that AI should remember you.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = "https://rlijblpqqhhwlhhjmvgo.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsaWpibHBxcWhod2xoaGptdmdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwMDM5NjUsImV4cCI6MjA3MVU3OTk2NX0.STBh5S0Vvc6EC-8rWzcwhcdcingBTEVxgCLUgUqUZiU";
+        
+        // Wait for Supabase to load
+        let supabaseClient;
+        
+        window.addEventListener('load', () => {
+            if (typeof window.supabase !== 'undefined') {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                console.log('Supabase initialized successfully');
+                loadWaitlistCount();
+            } else {
+                console.error('Supabase not loaded');
+            }
+        });
+        
+        // DOM elements
+        const form = document.getElementById('waitlist-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const waitlistCount = document.getElementById('waitlist-count');
+        const totalSignups = document.getElementById('total-signups');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Load waitlist count on page load
+        async function loadWaitlistCount() {
+            try {
+                if (!supabaseClient) {
+                    waitlistCount.textContent = '0';
+                    totalSignups.textContent = '0';
+                    return;
+                }
+                
+                const { count, error } = await supabaseClient
+                    .from('waitlist')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (error) {
+                    console.error('Error loading count:', error);
+                    waitlistCount.textContent = '0';
+                    totalSignups.textContent = '0';
+                    return;
+                }
+                
+                const currentCount = count || 0;
+                waitlistCount.textContent = currentCount;
+                totalSignups.textContent = currentCount;
+                
+                // Animate counter
+                animateCounterTo(currentCount);
+                
+            } catch (error) {
+                console.error('Error loading count:', error);
+                waitlistCount.textContent = '0';
+                totalSignups.textContent = '0';
+            }
+        }
+
+        // Animate counter
+        function animateCounterTo(target) {
+            let current = 0;
+            const increment = Math.max(1, Math.floor(target / 30));
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                waitlistCount.textContent = current;
+            }, 100);
+        }
+
+        // Handle form submission
+        async function handleSubmit(e) {
+            e.preventDefault();
+            
+            if (!supabaseClient) {
+                errorMessage.classList.remove('hidden');
+                errorText.textContent = "Service temporarily unavailable. Please try again.";
+                return;
+            }
+            
+            const formData = new FormData(form);
+            const email = formData.get('email');
+            
+            // Update button state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '⏳ Joining Waitlist...';
+            
+            // Hide previous messages
+            successMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            
+            try {
+                const { data, error } = await supabaseClient
+                    .from('waitlist')
+                    .insert([{ email: email }]);
+                
+                if (error) {
+                    throw error;
+                }
+                
+                // Success!
+                successMessage.classList.remove('hidden');
+                form.style.display = 'none';
+                
+                // Update count
+                loadWaitlistCount();
+                
+                // Track success
+                console.log('Waitlist signup successful:', email);
+                
+            } catch (error) {
+                console.error('Error signing up:', error);
+                
+                // Show error message
+                errorMessage.classList.remove('hidden');
+                
+                if (error.code === '23505' || error.message.includes('duplicate')) {
+                    errorText.textContent = "This email is already on the waitlist! Check your inbox for updates.";
+                } else {
+                    errorText.textContent = "Something went wrong. Please try again in a moment.";
+                }
+            } finally {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Join the Waitlist Now';
+            }
+        }
+
+        // Mobile menu toggle
+        mobileMenuButton?.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form submission
+        form?.addEventListener('submit', handleSubmit);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
